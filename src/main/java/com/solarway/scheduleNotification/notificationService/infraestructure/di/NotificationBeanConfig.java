@@ -5,6 +5,7 @@ import com.solarway.scheduleNotification.notificationService.core.application.us
 import com.solarway.scheduleNotification.notificationService.core.application.usecase.CreateNotificationUseCase;
 import com.solarway.scheduleNotification.notificationService.core.application.usecase.SendPendingNotificationsUseCase;
 import com.solarway.scheduleNotification.notificationService.core.application.usecase.UpdateNotificationUseCase;
+import com.solarway.scheduleNotification.notificationService.infraestructure.email.EmailNotificationSender;
 import com.solarway.scheduleNotification.notificationService.infraestructure.persistence.jpa.ScheduleNotificationJpaAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -44,4 +45,8 @@ public class NotificationBeanConfig {
         return new SendPendingNotificationsUseCase(adapter, adapter, emailSender);
     }
 
+    @Bean
+    public NotificationSender emailNotificationSender(JavaMailSender mailSender) {
+        return new EmailNotificationSender(mailSender, mailFrom);
+    }
 }
