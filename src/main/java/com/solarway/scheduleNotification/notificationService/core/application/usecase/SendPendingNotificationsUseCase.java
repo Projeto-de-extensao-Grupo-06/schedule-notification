@@ -31,6 +31,8 @@ public class SendPendingNotificationsUseCase {
                 notification.markAsSent();
             } catch (Exception e) {
                 notification.markAsFailed();
+                System.out.println("Erro ao enviar notificação: " + e.getMessage());
+                e.printStackTrace();
             }
             mutation.save(notification);
         }

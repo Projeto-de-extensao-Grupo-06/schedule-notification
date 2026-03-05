@@ -39,7 +39,7 @@ public class EmailNotificationSender implements NotificationSender {
                 .date(notification.getStartDate().format(DATE_FORMATTER))
                 .hour(notification.getStartDate().format(HOUR_FORMATTER))
                 .address("Ver detalhes no sistema")
-                .visitType(notification.getType().name().replace("_", " "))
+                .visitType(notification.getType().label)
                 .build();
 
         String body = buildTemplate(model);
@@ -61,7 +61,7 @@ public class EmailNotificationSender implements NotificationSender {
 
     private String buildTemplate(VisitNotificationEmail model) {
         try {
-            InputStream resource = getClass().getResourceAsStream("/template/visitNotificationTemplate.html");
+            InputStream resource = getClass().getResourceAsStream("/templates/visitNotificationTemplate.html");
 
             if (resource == null) {
                 throw new FileNotFoundException("Template não encontrado: visitNotificationTemplate.html");
