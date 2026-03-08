@@ -4,6 +4,9 @@ import com.solarway.scheduleNotification.notificationService.core.adapters.Notif
 import com.solarway.scheduleNotification.notificationService.core.adapters.NotificationQuery;
 import com.solarway.scheduleNotification.notificationService.core.adapters.NotificationSender;
 import com.solarway.scheduleNotification.notificationService.core.domain.model.ScheduleNotification;
+import com.solarway.scheduleNotification.notificationService.infraestructure.scheduler.NotificationSchedulerJob;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -11,6 +14,8 @@ public class SendPendingNotificationsUseCase {
     private final NotificationQuery query;
     private final NotificationMutation mutation;
     private final NotificationSender sender;
+    private static final Logger log = LoggerFactory.getLogger(NotificationSchedulerJob.class);
+
 
     public SendPendingNotificationsUseCase(
           NotificationQuery query,
@@ -30,9 +35,8 @@ public class SendPendingNotificationsUseCase {
                 sender.send(notification);
                 notification.markAsSent();
             } catch (Exception e) {
+                log.error("Erro ao enviar notificação {}: {}", notification.getScheduleId(), e.getMessage());
                 notification.markAsFailed();
-                System.out.println("Erro ao enviar notificação: " + e.getMessage());
-                e.printStackTrace();
             }
             mutation.save(notification);
         }

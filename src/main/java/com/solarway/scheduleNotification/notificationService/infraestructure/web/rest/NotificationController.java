@@ -35,7 +35,7 @@ public class NotificationController {
             @PathVariable long scheduleId,
             @RequestBody UpdateNotificationCommand command
             ) {
-         ScheduleNotification notification = updateUseCase.execute(command);
+         ScheduleNotification notification = updateUseCase.execute(scheduleId, command);
          return ResponseEntity.ok(notification);
     }
 

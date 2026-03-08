@@ -16,12 +16,12 @@ public class UpdateNotificationUseCase {
         this.mutation = mutation;
         this.daysBefore = daysBefore;
     }
-    public ScheduleNotification execute(UpdateNotificationCommand command){
-        query.findByScheduleId(command.scheduleId())
-                .orElseThrow(() -> new NotificationNotFoundException(command.scheduleId()));
+    public ScheduleNotification execute(Long scheduleId , UpdateNotificationCommand command){
+        query.findByScheduleId(scheduleId)
+                .orElseThrow(() -> new NotificationNotFoundException(scheduleId));
 
         ScheduleNotification updated = ScheduleNotification.newSchedule(
-                command.scheduleId(),
+                scheduleId,
                 command.projectTitle(),
                 command.email(),
                 command.phone(),
