@@ -15,11 +15,10 @@ public class CancelNotificationUseCase {
         this.mutation = mutation;
     }
 
-    public void execute(CancelNotificationCommand command){
-        ScheduleNotification notification = query.findByScheduleId(command.scheduleId())
+    public void execute(CancelNotificationCommand command) {
+        query.findByScheduleId(command.scheduleId())
                 .orElseThrow(() -> new NotificationNotFoundException(command.scheduleId()));
 
-        notification.cancel();
-        mutation.save(notification);
+        mutation.deleteByScheduleId(command.scheduleId());
     }
 }

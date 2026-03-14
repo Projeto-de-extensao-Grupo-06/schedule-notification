@@ -2,6 +2,7 @@ package com.solarway.scheduleNotification.notificationService.infraestructure.pe
 
 import com.solarway.scheduleNotification.notificationService.core.domain.model.NotificationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
@@ -16,4 +17,7 @@ public interface ScheduleNotificationJpaRepository extends JpaRepository<Schedul
             NotificationStatus status,
             LocalDateTime now
     );
+
+    @Transactional
+    void deleteByScheduleId(Long scheduleId);
 }

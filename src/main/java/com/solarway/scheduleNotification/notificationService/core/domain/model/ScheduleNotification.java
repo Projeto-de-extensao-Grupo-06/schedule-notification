@@ -93,11 +93,6 @@ public class ScheduleNotification {
         );
     }
 
-    public void cancel() {
-        if (this.status == NotificationStatus.PENDING) {
-            this.status = NotificationStatus.CANCELLED;
-        }
-    }
 
     public void markAsSent() {
         this.status = NotificationStatus.SENT;

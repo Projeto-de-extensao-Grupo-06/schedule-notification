@@ -17,6 +17,7 @@ public class ScheduleNotificationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private Long scheduleId;
     private String projectTitle;
     private String email;

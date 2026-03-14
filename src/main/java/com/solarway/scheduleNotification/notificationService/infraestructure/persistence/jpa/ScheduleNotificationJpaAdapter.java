@@ -40,4 +40,9 @@ public class ScheduleNotificationJpaAdapter implements NotificationQuery, Notifi
         ScheduleNotificationEntity saved = repository.save(toSave);
         return ScheduleNotificationMapper.toDomain(saved);
     }
+
+    @Override
+    public void deleteByScheduleId(Long scheduleId) {
+        repository.deleteByScheduleId(scheduleId);
+    }
 }
