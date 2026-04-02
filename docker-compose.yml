@@ -15,3 +15,12 @@ services:
       - .env
     depends_on:
       - mysql
+
+  rabbitmq:
+    image: 'rabbitmq:4.2.4-management'
+    environment:
+      - 'RABBITMQ_DEFAULT_PASS=secret'
+      - 'RABBITMQ_DEFAULT_USER=myuser'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
