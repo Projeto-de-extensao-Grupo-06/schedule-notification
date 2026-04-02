@@ -28,8 +28,12 @@ spring:
           auth: true
           starttls:
             enable: true
-
 notification:
   days-before: 2
   scheduler:
     job-interval-ms: 60000
+broker:
+  exchange:
+    name: example.fanout.exchange
+  queue:
+    name: example.queue
