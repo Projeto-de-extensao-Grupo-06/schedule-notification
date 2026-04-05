@@ -1,12 +1,13 @@
 package com.solarway.scheduleNotification.notificationService.infraestructure.rabbitMq;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 @ConfigurationProperties(prefix = "broker")
 public record RabbitPropertiesConfiguration(
         Exchange exchange,
-        Queue queue
+        Queue createQueue,
+        Queue updateQueue,
+        Queue cancelQueue
 ) {
     public record Exchange(String name) {
     }

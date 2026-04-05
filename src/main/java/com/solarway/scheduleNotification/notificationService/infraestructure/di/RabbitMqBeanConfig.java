@@ -17,17 +17,32 @@ public class RabbitMqBeanConfig {
 
     @Bean
     public Declarables rabbitDeclarables() {
-        FanoutExchange exchange = new FanoutExchange(properties.exchange().name());
+        DirectExchange exchange = new DirectExchange(properties.exchange().name());
 
-        Queue queue = QueueBuilder
-                .durable(properties.queue().name())
-                .build();
+        Queue createQueue = QueueBuilder.durable(properties.createQueue().name()).build();
+        Queue updateQueue = QueueBuilder.durable(properties.updateQueue().name()).build();
+        Queue cancelQueue = QueueBuilder.durable(properties.cancelQueue().name()).build();
 
-        Binding binding = BindingBuilder
-                .bind(queue)
-                .to(exchange);
+        Binding createBinding = BindingBuilder
+                .bind(createQueue)
+                .to(exchange)
+                .with(properties.createQueue().name());
 
-        return new Declarables(exchange, queue, binding);
+        Binding updateBinding = BindingBuilder
+                .bind(updateQueue)
+                .to(exchange)
+                .with(properties.updateQueue().name());
+
+        Binding cancelBinding = BindingBuilder
+                .bind(cancelQueue)
+                .to(exchange)
+                .with(properties.cancelQueue().name());
+
+        return new Declarables(
+                exchange,
+                createQueue, updateQueue, cancelQueue,
+                createBinding, updateBinding, cancelBinding
+        );
     }
 
     @Bean

@@ -1,27 +1,33 @@
+server:
+  port: 8081
 spring:
   application:
     name: schedule-notification
-
   datasource:
-    url: jdbc:mysql://localhost:3306/schedule_notification_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3307/schedule_notification_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: admin
+    password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: myuser
+    password: secret
 
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
 
   mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
-    username: ${EMAIL}
-    password: ${PASSWORD_EMAIL}
+    host: smtp.gmail.com
+    port: 587
+    username: "projeto.solarize@gmail.com"
+    password: "mdlm eznq anyj ykak"
     properties:
       mail:
         smtp:
@@ -34,6 +40,10 @@ notification:
     job-interval-ms: 60000
 broker:
   exchange:
-    name: example.fanout.exchange
-  queue:
-    name: example.queue
+    name: schedule.direct.exchange
+  create-queue:
+    name: schedule.create
+  update-queue:
+    name: schedule.update
+  cancel-queue:
+    name: schedule.cancel

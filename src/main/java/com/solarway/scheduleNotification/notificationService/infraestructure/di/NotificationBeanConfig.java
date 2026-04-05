@@ -23,8 +23,8 @@ public class NotificationBeanConfig {
     private String mailFrom;
 
     @Bean
-    public CreateNotificationUseCase createNotificationUseCase(ScheduleNotificationJpaAdapter adapter) {
-        return new CreateNotificationUseCase(adapter, daysBefore);
+    public CreateNotificationUseCase<ScheduleNotificationJpaAdapter> createNotificationUseCase(ScheduleNotificationJpaAdapter adapter) {
+        return new CreateNotificationUseCase<>(adapter, daysBefore);
     }
 
     @Bean

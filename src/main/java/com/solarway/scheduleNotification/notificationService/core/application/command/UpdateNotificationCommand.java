@@ -5,6 +5,7 @@ import com.solarway.scheduleNotification.notificationService.core.domain.model.S
 import java.time.LocalDateTime;
 
 public record UpdateNotificationCommand(
+        Long scheduleId,
         String projectTitle,
         String email,
         String phone,

@@ -14,7 +14,7 @@ public class SendPendingNotificationsUseCase {
     private final NotificationQuery query;
     private final NotificationMutation mutation;
     private final NotificationSender sender;
-    private static final Logger log = LoggerFactory.getLogger(NotificationSchedulerJob.class);
+    private static final Logger log = LoggerFactory.getLogger(SendPendingNotificationsUseCase.class);
 
 
     public SendPendingNotificationsUseCase(
