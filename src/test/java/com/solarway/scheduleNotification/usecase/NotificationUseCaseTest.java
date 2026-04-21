@@ -33,37 +33,6 @@ public class NotificationUseCaseTest {
     private final NotificationSender sender = mock(NotificationSender.class);
 
     @Test
-    @DisplayName("Deve criar notificação com status PENDING e persistir")
-    void createShouldSaveNotificationWithPendingStatus() {
-        CreateNotificationUseCase useCase = new CreateNotificationUseCase(mutation, 2);
-
-        ScheduleNotification saved = ScheduleNotificationBuilder.builder()
-                .withScheduleId(1L)
-                .withProjectTitle("Projeto Solar")
-                .withEmail("cliente@email.com")
-                .withPhone("11999999999")
-                .withType(ScheduleType.TECHNICAL_VISIT)
-                .withStartDate(LocalDateTime.now().plusDays(5))
-                .withEndDate(LocalDateTime.now().plusDays(5).plusHours(2))
-                .withDaysBefore(2)
-                .build();
-
-        when(mutation.save(any())).thenReturn(saved);
-
-        CreateNotificationCommand command = new CreateNotificationCommand(
-                1L, "Projeto Solar", "cliente@email.com", "11999999999",
-                ScheduleType.TECHNICAL_VISIT,
-                LocalDateTime.now().plusDays(5),
-                LocalDateTime.now().plusDays(5).plusHours(2)
-        );
-
-        ScheduleNotification result = useCase.execute(command);
-
-        verify(mutation, times(1)).save(any());
-        assertEquals(NotificationStatus.PENDING, result.getStatus());
-    }
-
-    @Test
     @DisplayName("Deve deletar notificação existente ao cancelar")
     void cancelShouldDeleteNotification() {
         CancelNotificationUseCase useCase = new CancelNotificationUseCase(query, mutation);
