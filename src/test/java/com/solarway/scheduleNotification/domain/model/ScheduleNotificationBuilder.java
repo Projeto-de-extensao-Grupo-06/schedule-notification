@@ -9,6 +9,7 @@ public class ScheduleNotificationBuilder {
 
     private Long scheduleId;
     private String projectTitle;
+    private String title;
     private String email;
     private String phone;
     private ScheduleType type;
@@ -27,6 +28,11 @@ public class ScheduleNotificationBuilder {
 
     public ScheduleNotificationBuilder withProjectTitle(String projectTitle) {
         this.projectTitle = projectTitle;
+        return this;
+    }
+
+    public ScheduleNotificationBuilder withTitle(String title) {
+        this.title = title;
         return this;
     }
 
@@ -64,6 +70,7 @@ public class ScheduleNotificationBuilder {
         return ScheduleNotification.newSchedule(
                 scheduleId,
                 projectTitle,
+                title,
                 email,
                 phone,
                 type,

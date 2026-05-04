@@ -10,6 +10,7 @@ public class ScheduleNotificationMapper {
         entity.setId(domain.getId());
         entity.setScheduleId(domain.getScheduleId());
         entity.setProjectTitle(domain.getProjectTitle());
+        entity.setTitle(domain.getTitle());
         entity.setEmail(domain.getContato().getEmail().getValue());
         entity.setPhone(domain.getContato().getPhone().getValue());
         entity.setType(domain.getType());
@@ -26,6 +27,7 @@ public class ScheduleNotificationMapper {
                 entity.getId(),
                 entity.getScheduleId(),
                 entity.getProjectTitle(),
+                entity.getTitle(),
                 entity.getEmail(),
                 entity.getPhone(),
                 entity.getType(),

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 public record UpdateNotificationCommand(
         Long scheduleId,
         String projectTitle,
+        String title,
         String email,
         String phone,
         ScheduleType type,

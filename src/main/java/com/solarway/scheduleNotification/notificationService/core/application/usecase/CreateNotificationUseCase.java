@@ -20,6 +20,7 @@ public class CreateNotificationUseCase<T extends NotificationQuery & Notificatio
             ScheduleNotification notification = ScheduleNotification.newSchedule(
                     command.scheduleId(),
                     command.projectTitle(),
+                    command.title(),
                     command.email(),
                     command.phone(),
                     command.type(),

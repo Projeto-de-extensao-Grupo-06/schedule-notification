@@ -2,6 +2,7 @@ package com.solarway.scheduleNotification.notificationService.infraestructure.em
 
 import com.solarway.scheduleNotification.notificationService.core.adapters.NotificationSender;
 import com.solarway.scheduleNotification.notificationService.core.domain.model.ScheduleNotification;
+import com.solarway.scheduleNotification.notificationService.core.domain.model.ScheduleType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -32,34 +33,52 @@ public class EmailNotificationSender implements NotificationSender {
 
     @Override
     public void send(ScheduleNotification notification) {
-        VisitNotificationEmail model = VisitNotificationEmail.builder()
-                .to(notification.getContato().getEmail().getValue())
-                .subject("Lembrete de Visita - Solarize")
-                .clientName(notification.getProjectTitle())
-                .date(notification.getStartDate().format(DATE_FORMATTER))
-                .hour(notification.getStartDate().format(HOUR_FORMATTER))
-                .address("Ver detalhes no sistema")
-                .visitType(notification.getType().label)
-                .build();
+        String to = notification.getContato().getEmail().getValue();
+        String body;
+        String subject;
 
-        String body = buildTemplate(model);
+        if (notification.getType() == ScheduleType.NOTE) {
+            NoteNotificationEmail model = NoteNotificationEmail.builder()
+                    .to(to)
+                    .subject("Lembrete - Solarize")
+                    .title(notification.getTitle())
+                    .date(notification.getStartDate().format(DATE_FORMATTER))
+                    .hour(notification.getStartDate().format(HOUR_FORMATTER))
+                    .build();
+
+            subject = model.getSubject();
+            body = buildNoteTemplate(model);
+        } else {
+            VisitNotificationEmail model = VisitNotificationEmail.builder()
+                    .to(to)
+                    .subject("Lembrete de Visita - Solarize")
+                    .clientName(notification.getProjectTitle())
+                    .date(notification.getStartDate().format(DATE_FORMATTER))
+                    .hour(notification.getStartDate().format(HOUR_FORMATTER))
+                    .address("Ver detalhes no sistema")
+                    .visitType(notification.getType().label)
+                    .build();
+
+            subject = model.getSubject();
+            body = buildVisitTemplate(model);
+        }
 
         try {
             MimeMessage message = mailSender.createMimeMessage();
             message.setFrom(new InternetAddress(from));
-            message.setRecipients(MimeMessage.RecipientType.TO, model.getTo());
-            message.setSubject(model.getSubject());
+            message.setRecipients(MimeMessage.RecipientType.TO, to);
+            message.setSubject(subject);
             message.setContent(body, "text/html; charset=utf-8");
             mailSender.send(message);
-            log.info("Email enviado para {} | scheduleId={}", model.getTo(), notification.getScheduleId());
+            log.info("Email enviado para {} | scheduleId={}", to, notification.getScheduleId());
         } catch (MessagingException e) {
             throw new RuntimeException(
-                    String.format("Falha ao enviar email para '%s': %s", model.getTo(), e.getMessage())
+                    String.format("Falha ao enviar email para '%s': %s", to, e.getMessage())
             );
         }
     }
 
-    private String buildTemplate(VisitNotificationEmail model) {
+    private String buildVisitTemplate(VisitNotificationEmail model) {
         try {
             InputStream resource = getClass().getResourceAsStream("/templates/visitNotificationTemplate.html");
 
@@ -76,6 +95,27 @@ public class EmailNotificationSender implements NotificationSender {
                     .replace("${hour}", model.getHour())
                     .replace("${address}", model.getAddress())
                     .replace("${vitit_type}", model.getVisitType());
+
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao processar template de email: " + e.getMessage());
+        }
+    }
+
+    private String buildNoteTemplate(NoteNotificationEmail model) {
+        try {
+            InputStream resource = getClass().getResourceAsStream("/templates/noteNotificationTemplate.html");
+
+            if (resource == null) {
+                throw new FileNotFoundException("Template não encontrado: noteNotificationTemplate.html");
+            }
+
+            String template = new String(resource.readAllBytes(), StandardCharsets.UTF_8);
+            resource.close();
+
+            return template
+                    .replace("${title}", model.getTitle() != null ? model.getTitle() : "Sem título")
+                    .replace("${date}", model.getDate())
+                    .replace("${hour}", model.getHour());
 
         } catch (IOException e) {
             throw new RuntimeException("Erro ao processar template de email: " + e.getMessage());

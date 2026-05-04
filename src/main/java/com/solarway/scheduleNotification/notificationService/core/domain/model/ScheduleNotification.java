@@ -10,6 +10,7 @@ public class ScheduleNotification {
     private Long id;
     private Long scheduleId;
     private String projectTitle;
+    private String title;
     private Contato contato;
     private SendAt sendAt;
     private ScheduleType type;
@@ -22,6 +23,7 @@ public class ScheduleNotification {
             Long id,
             Long scheduleId,
             String projectTitle,
+            String title,
             Contato contato,
             SendAt sendAt,
             ScheduleType type,
@@ -33,6 +35,7 @@ public class ScheduleNotification {
         this.id = id;
         this.scheduleId = scheduleId;
         this.projectTitle = projectTitle;
+        this.title = title;
         this.contato = contato;
         this.sendAt = sendAt;
         this.type = type;
@@ -45,6 +48,7 @@ public class ScheduleNotification {
     public static ScheduleNotification newSchedule(
             Long scheduleId,
             String projectTitle,
+            String title,
             String email,
             String phone,
             ScheduleType type,
@@ -56,6 +60,7 @@ public class ScheduleNotification {
                 null,
                 scheduleId,
                 projectTitle,
+                title,
                 Contato.of(email, phone),
                 SendAt.of(startDate, daysBefore),
                 type,
@@ -70,6 +75,7 @@ public class ScheduleNotification {
             Long id,
             Long scheduleId,
             String projectTitle,
+            String title,
             String email,
             String phone,
             ScheduleType type,
@@ -83,6 +89,7 @@ public class ScheduleNotification {
                 id,
                 scheduleId,
                 projectTitle,
+                title,
                 Contato.of(email, phone),
                 SendAt.of(sendAt, 0),
                 type,
@@ -106,6 +113,7 @@ public class ScheduleNotification {
     public void setId(Long id) { this.id = id; }
     public Long getScheduleId() { return scheduleId; }
     public String getProjectTitle() { return projectTitle; }
+    public String getTitle() { return title; }
     public Contato getContato() { return contato; }
     public SendAt getSendAt() { return sendAt; }
     public ScheduleType getType() { return type; }

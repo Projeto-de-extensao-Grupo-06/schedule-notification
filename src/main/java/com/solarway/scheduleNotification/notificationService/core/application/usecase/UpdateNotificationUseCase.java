@@ -24,6 +24,7 @@ public class UpdateNotificationUseCase {
                 existing.getId(),
                 command.scheduleId(),
                 command.projectTitle(),
+                command.title(),
                 command.email(),
                 command.phone(),
                 command.type(),

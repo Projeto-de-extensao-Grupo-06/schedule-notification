@@ -20,6 +20,7 @@ public class ScheduleNotificationEntity {
     @Column(unique = true)
     private Long scheduleId;
     private String projectTitle;
+    private String title;
     private String email;
     private String phone;
 

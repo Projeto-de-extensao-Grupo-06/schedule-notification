@@ -2,7 +2,8 @@ package com.solarway.scheduleNotification.notificationService.core.domain.model;
 
 public enum ScheduleType {
     TECHNICAL_VISIT("Visita Técnica"),
-    INSTALL_VISIT("Visita de Instalação");
+    INSTALL_VISIT("Visita de Instalação"),
+    NOTE("lembrete");
 
     public final String label;
 
