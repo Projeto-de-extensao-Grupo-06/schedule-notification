@@ -5,6 +5,9 @@ import com.solarway.scheduleNotification.notificationService.core.adapters.Notif
 import com.solarway.scheduleNotification.notificationService.core.application.command.UpdateNotificationCommand;
 import com.solarway.scheduleNotification.notificationService.core.domain.model.ScheduleNotification;
 import com.solarway.scheduleNotification.notificationService.core.domain.shared.exception.NotificationNotFoundException;
+import com.solarway.scheduleNotification.notificationService.core.domain.shared.vo.Contato;
+
+import java.util.List;
 
 public class UpdateNotificationUseCase {
     private final NotificationQuery query;
@@ -20,13 +23,16 @@ public class UpdateNotificationUseCase {
         ScheduleNotification existing = query.findByScheduleId(command.scheduleId())
                 .orElseThrow(() -> new NotificationNotFoundException(command.scheduleId()));
 
+        List<Contato> recipients = command.recipients().stream()
+                .map(recipient -> Contato.of(recipient.email(), recipient.phone()))
+                .toList();
+
         ScheduleNotification updated = ScheduleNotification.existing(
                 existing.getId(),
                 command.scheduleId(),
                 command.projectTitle(),
                 command.title(),
-                command.email(),
-                command.phone(),
+                recipients,
                 command.type(),
                 existing.getStatus(),
                 command.startDate(),

@@ -5,6 +5,9 @@ import com.solarway.scheduleNotification.notificationService.core.adapters.Notif
 import com.solarway.scheduleNotification.notificationService.core.application.command.CreateNotificationCommand;
 import com.solarway.scheduleNotification.notificationService.core.domain.model.ScheduleNotification;
 import com.solarway.scheduleNotification.notificationService.core.domain.shared.exception.ConflictException;
+import com.solarway.scheduleNotification.notificationService.core.domain.shared.vo.Contato;
+
+import java.util.List;
 
 public class CreateNotificationUseCase<T extends NotificationQuery & NotificationMutation> {
     private final T mutation;
@@ -17,12 +20,16 @@ public class CreateNotificationUseCase<T extends NotificationQuery & Notificatio
 
     public ScheduleNotification execute(CreateNotificationCommand command) {
         if(mutation.findByScheduleId(command.scheduleId()).isEmpty()) {
+
+            List<Contato> recipients = command.recipients().stream()
+                    .map(recipient -> Contato.of(recipient.email(), recipient.phone()))
+                    .toList();
+
             ScheduleNotification notification = ScheduleNotification.newSchedule(
                     command.scheduleId(),
                     command.projectTitle(),
                     command.title(),
-                    command.email(),
-                    command.phone(),
+                    recipients,
                     command.type(),
                     command.startDate(),
                     command.endDate(),

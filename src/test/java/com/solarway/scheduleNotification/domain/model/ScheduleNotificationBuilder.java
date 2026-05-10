@@ -2,16 +2,18 @@ package com.solarway.scheduleNotification.domain.model;
 
 import com.solarway.scheduleNotification.notificationService.core.domain.model.ScheduleNotification;
 import com.solarway.scheduleNotification.notificationService.core.domain.model.ScheduleType;
+import com.solarway.scheduleNotification.notificationService.core.domain.shared.vo.Contato;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScheduleNotificationBuilder {
 
     private Long scheduleId;
     private String projectTitle;
     private String title;
-    private String email;
-    private String phone;
+    private List<Contato> recipients = new ArrayList<>();
     private ScheduleType type;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -36,13 +38,8 @@ public class ScheduleNotificationBuilder {
         return this;
     }
 
-    public ScheduleNotificationBuilder withEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public ScheduleNotificationBuilder withPhone(String phone) {
-        this.phone = phone;
+    public ScheduleNotificationBuilder withRecipient(String email, String phone) {
+        this.recipients.add(Contato.of(email, phone));
         return this;
     }
 
@@ -71,8 +68,7 @@ public class ScheduleNotificationBuilder {
                 scheduleId,
                 projectTitle,
                 title,
-                email,
-                phone,
+                recipients,
                 type,
                 startDate,
                 endDate,

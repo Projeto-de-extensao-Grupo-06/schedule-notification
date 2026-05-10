@@ -21,8 +21,9 @@ public class ScheduleNotificationEntity {
     private Long scheduleId;
     private String projectTitle;
     private String title;
-    private String email;
-    private String phone;
+
+    @Column(columnDefinition = "TEXT")
+    private String recipients;
 
     @Enumerated(EnumType.STRING)
     private ScheduleType type;

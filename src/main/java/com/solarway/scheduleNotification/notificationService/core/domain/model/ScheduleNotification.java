@@ -4,6 +4,7 @@ import com.solarway.scheduleNotification.notificationService.core.domain.shared.
 import com.solarway.scheduleNotification.notificationService.core.domain.shared.vo.SendAt;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ScheduleNotification {
 
@@ -11,7 +12,7 @@ public class ScheduleNotification {
     private Long scheduleId;
     private String projectTitle;
     private String title;
-    private Contato contato;
+    private List<Contato> recipients;
     private SendAt sendAt;
     private ScheduleType type;
     private NotificationStatus status;
@@ -24,7 +25,7 @@ public class ScheduleNotification {
             Long scheduleId,
             String projectTitle,
             String title,
-            Contato contato,
+            List<Contato> recipients,
             SendAt sendAt,
             ScheduleType type,
             NotificationStatus status,
@@ -36,7 +37,7 @@ public class ScheduleNotification {
         this.scheduleId = scheduleId;
         this.projectTitle = projectTitle;
         this.title = title;
-        this.contato = contato;
+        this.recipients = recipients;
         this.sendAt = sendAt;
         this.type = type;
         this.status = status;
@@ -49,8 +50,7 @@ public class ScheduleNotification {
             Long scheduleId,
             String projectTitle,
             String title,
-            String email,
-            String phone,
+            List<Contato> recipients,
             ScheduleType type,
             LocalDateTime startDate,
             LocalDateTime endDate,
@@ -61,7 +61,7 @@ public class ScheduleNotification {
                 scheduleId,
                 projectTitle,
                 title,
-                Contato.of(email, phone),
+                recipients,
                 SendAt.of(startDate, daysBefore),
                 type,
                 NotificationStatus.PENDING,
@@ -76,8 +76,7 @@ public class ScheduleNotification {
             Long scheduleId,
             String projectTitle,
             String title,
-            String email,
-            String phone,
+            List<Contato> recipients,
             ScheduleType type,
             NotificationStatus status,
             LocalDateTime startDate,
@@ -90,7 +89,7 @@ public class ScheduleNotification {
                 scheduleId,
                 projectTitle,
                 title,
-                Contato.of(email, phone),
+                recipients,
                 SendAt.of(sendAt, 0),
                 type,
                 status,
@@ -114,7 +113,7 @@ public class ScheduleNotification {
     public Long getScheduleId() { return scheduleId; }
     public String getProjectTitle() { return projectTitle; }
     public String getTitle() { return title; }
-    public Contato getContato() { return contato; }
+    public List<Contato> getRecipients() { return recipients; }
     public SendAt getSendAt() { return sendAt; }
     public ScheduleType getType() { return type; }
     public NotificationStatus getStatus() { return status; }

@@ -3,13 +3,13 @@ package com.solarway.scheduleNotification.notificationService.core.application.c
 import com.solarway.scheduleNotification.notificationService.core.domain.model.ScheduleType;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record UpdateNotificationCommand(
         Long scheduleId,
         String projectTitle,
         String title,
-        String email,
-        String phone,
+        List<RecipientCommand> recipients,
         ScheduleType type,
         LocalDateTime startDate,
         LocalDateTime endDate
