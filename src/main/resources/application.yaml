@@ -4,15 +4,15 @@ spring:
   application:
     name: schedule-notification
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/schedule_notification_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:your_password_here}
     driver-class-name: com.mysql.cj.jdbc.Driver
   rabbitmq:
-    host: ${RABBITMQ_HOST}
+    host: ${RABBITMQ_HOST:localhost}
     port: 5672
-    username: ${RABBITMQ_USER}
-    password: ${RABBITMQ_PASS}
+    username: ${RABBITMQ_USER:${RABBITMQ_DEFAULT_USER:myuser}}
+    password: ${RABBITMQ_PASS:${RABBITMQ_DEFAULT_PASS:secret}}
   jpa:
     hibernate:
       ddl-auto: update
@@ -22,10 +22,10 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
   mail:
-    host: ${MAIL_HOST}
-    port: ${MAIL_PORT}
-    username: ${EMAIL}
-    password: ${PASSWORD_EMAIL}
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${EMAIL:}
+    password: ${PASSWORD_EMAIL:${EMAIL_PASSWORD:}}
     properties:
       mail:
         smtp:
