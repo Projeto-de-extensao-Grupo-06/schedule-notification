@@ -6,13 +6,13 @@ spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/schedule_notification_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true}
     username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:your_password_here}
+    password: ${DB_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
   rabbitmq:
-    host: ${RABBITMQ_HOST:localhost}
+    host: ${RABBITMQ_HOST:${RABBIT_HOST:localhost}}
     port: 5672
-    username: ${RABBITMQ_USER:${RABBITMQ_DEFAULT_USER:myuser}}
-    password: ${RABBITMQ_PASS:${RABBITMQ_DEFAULT_PASS:secret}}
+    username: ${RABBITMQ_USER:${RABBIT_USER:${RABBITMQ_DEFAULT_USER:myuser}}}
+    password: ${RABBITMQ_PASS:${RABBIT_PASSWORD:${RABBITMQ_DEFAULT_PASS:secret}}}
   jpa:
     hibernate:
       ddl-auto: update
